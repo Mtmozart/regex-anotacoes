@@ -84,4 +84,15 @@ Claro! Aqui está a versão sem formatação de terminal:
 
 ### Regex em javascript
 
--- Telefone tipo **`/\(\d{2}\)\s\d{4,5}-\d{4}/g`** = **`(dd) 9999-99999`**
+Para verificar se uma expressão regular corresponde a uma string e encontrar todas as correspondências, você pode usar o método `variável.match(regexCriada)`. Esse método retorna um array contendo todas as correspondências encontradas na string para a expressão regular fornecida. Se não houver nenhuma correspondência, o resultado será `null`.
+
+```Javascript
+const texto = "Algum texto bem interessante";
+const regexCriada = /interessante/;
+const resultado = texto.match(regexCriada);
+console.log(resultado); // ["interessante"]
+```
+
+** Atenção **, se for procurar regex em arquivos, adicione o "g" no fim da regex.
+
+-- Telefone tipo **`/\(\d{2}\)\s\d{4,5}-\d{4}/`** = **`(dd) 9999-99999`**
