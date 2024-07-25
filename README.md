@@ -73,4 +73,15 @@ Claro! Aqui está a versão sem formatação de terminal:
 
 ---
 
-Você pode copiar e colar diretamente no seu README agora!
+## Meta-char
+
+- / regex / = início e fim da regex;
+- d = dígitos de 0 a 9;
+- s = espaço vazio;
+- g = aplicação de toda as ocorrências no artigo;
+- \ \ = permite usar outros caracteres como o ();
+- {2} = quantidades de dígitos;
+
+### Regex em javascript
+
+-- Telefone tipo **`/\(\d{2}\)\s\d{4,5}-\d{4}/g`** = **`(dd) 9999-99999`**
