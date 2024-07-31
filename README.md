@@ -85,6 +85,7 @@ Claro! Aqui está a versão sem formatação de terminal:
 - [classe onde posso por caracteres] = entre colchetes eu posso passar vários meta chars;
 - ? = Quantificador que torna tudo opcional.
 - $ = ancora que será no final da linha
+- ^ = ancora que será no início da linha
 
 ### Regex em javascript
 
@@ -116,6 +117,7 @@ Caractere Descrição
   \W Qualquer caractere que não seja alfanumérico "!", "@", " "
   \s Qualquer caractere de espaço em branco " ", "\t", "\n"
   \S Qualquer caractere que não seja espaço em branco "a", "B", "9"
+  \b Croa um limite para pesquisa, boa para regex específica
 
   Regex Descrição Correspondência
   \[ Colchete de abertura [ literal "["
@@ -138,3 +140,40 @@ console.log(resultado); // ["interessante"]
 -- CPF tipo **`/\d{3}\.\d{3}\.\d{3}\-\d{2}/`** = **`123.456.789-10`**
 
 -- Data tipo **`/\d{2}\/\d{2}\/\d{4}/`** = **`05/08/1998`**
+
+-- Nome válido **`/^[A-Za-zÀ-ÿ -]{3,30}$/i`** = **Só um nome**
+
+-- Nome válido **`/^(?!(.)\1\1)[A-Za-zÀ-ÿ -]{3,30}$/i`** = **Só um nome, só que mais restrito**
+
+-- Endereço **`/[A-Za-zÀ-ÿ -]+,\s\d{3}+,\sCEP\s\d{5}-\d{3}/gm`** = **/[A-Za-zÀ-ÿ -]+,\s\d{3}+,\sCEP\s\d{5}-\d{3}/**
+
+## Conceitos importantes:
+
+Vamos usar a analogia da biblioteca para entender o que fizemos na aula:A nossa "biblioteca" é o código HTML da página do MoniBank. Nesse código, temos várias tags, como <h1>, <h2>, <p>, e outras.O nosso "livro" é o conteúdo dentro de cada tag. Por exemplo, dentro da tag <h1> está o título da página "MoniBank".A nossa "busca" é encontrar todas as tags <h1> e <h2> e seus conteúdos.No início, nossa regex era greedy: Ela "pegava todos os livros da estante", ou seja, capturava todo o conteúdo do HTML até encontrar a próxima tag de fechamento </h1> ou <h2>. Isso incluía espaços em branco e o conteúdo de outras tags, como <p>, que não eram relevantes para a nossa busca.Para resolver esse problema, usamos o quantificador lazy \*?: Ele "olhava rapidamente para os livros da estante" e pegava apenas o primeiro livro que encontrava, ou seja, o conteúdo da tag <h1> ou <h2> até a próxima tag de fechamento. Assim, nossa regex se tornou mais precisa e eficiente, capturando apenas o conteúdo que realmente queríamos.Você pode pensar na regex como um detetive que procura pistas em um crime. Um detetive greedy vai analisar todos os detalhes, mesmo os irrelevantes, enquanto um detetive lazy vai focar nas pistas mais importantes.Espero que essa analogia tenha te ajudado a entender como greedy e lazy funcionam na prática! Você tem alguma outra dúvida sobre a aula?
+
+## outro dicionário importante:
+
+    Descrição	Exemplo
+
+- Coincide com 0 ou mais ocorrências do elemento anterior. a\* corresponde a "", "a", "aa", "aaa", etc.
+
+* Coincide com 1 ou mais ocorrências do elemento anterior. a+ corresponde a "a", "aa", "aaa", etc., mas não a "".
+  ? Coincide com 0 ou 1 ocorrência do elemento anterior. a? corresponde a "" ou "a".
+  {n} Coincide exatamente com “n” ocorrências do elemento anterior. a{3} corresponde a "aaa", mas não a "aa" ou "a".
+  {n,} Coincide com pelo menos “n” ocorrências do elemento anterior. a{2,} corresponde a "aa", "aaa", "aaaa", etc.
+  {n,m} Coincide com pelo menos “n” e no máximo “m” ocorrências do elemento anterior.
+
+notas: é como um "espelho" dentro da sua regex, que permite você referenciar um grupo de captura anterior dentro da mesma expressão.
+
+Imagine que você está procurando por um padrão de texto onde a primeira parte precisa ser exatamente igual à última parte. Por exemplo, você quer encontrar todas as tags HTML que abrem e fecham com o mesmo nome, como <h1 ... </h1> ou <p ... </p>.
+
+Com backreference, você pode capturar a primeira parte da tag (o nome da tag) e depois usar essa captura para garantir que a última parte seja exatamente igual.
+
+Exemplo:
+python
+
+```python
+pattern = r'<(h[12])[^>]_>(._?)<\/\1>'
+```
+
+Nesse exemplo, o grupo (h[12]) captura a primeira parte da tag (h1 ou h2). O \1 é a backreference que faz referência ao primeiro grupo capturado, garantindo que a tag de fechamento seja exatamente igual à de abertura.
